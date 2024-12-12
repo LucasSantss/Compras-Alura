@@ -1,54 +1,42 @@
+let totalGeral = 0;
+limpar();
+img.style.background = "white url('') no-repeat bottom left";
+
 function adicionar(){
-    let produto = document.getElementById('produto');
-    let quantidade = document.getElementById('quantidade').value;
+    let produto = document.getElementById('produto').value;
+    let nomeProduto = produto.split('-')[0];
+    let valorUnitario = produto.split('R$')[1]; 
+    let quantidade = document.getElementById('quantidade').value; 
     let lista = document.getElementById('lista-produtos');
-    let textoTotal = document.querySelector(".carrinho__total");
-    let total;
     let img = document.querySelector('.conteudo-principal');
 
-    let fone = 100;
-    let celular = 1400;
-    let oculos = 5000;
+    let preco = quantidade * valorUnitario;
 
-    if(produto.value == 'Fone'){
-        total = fone * quantidade;
-        produto = 100;
+    if(nomeProduto ===  'Fone '){
         img.style.background = "white url('./assets/fone.jpg')no-repeat bottom left" ;
     }
 
-    if(produto.value == 'Celular'){
-        total = celular * quantidade;
-        produto = 1400;
+    if(nomeProduto == 'Celular '){
         img.style.background = "white url('./assets/celular.jpg')no-repeat bottom left";
     }
 
-    if(produto.value == 'Oculus'){
-        total = oculos * quantidade;
-        produto = 5000;
+    if(nomeProduto == 'Oculus VR '){
         img.style.background = "white url('./assets/oculos.jpg') no-repeat bottom left";
     }
     
-    lista.innerHTML = 
+    lista.innerHTML = lista.innerHTML + 
     `<section class="carrinho__produtos__produto">
-      <span class="texto-azul">${quantidade}x</span> Celular <span class="texto-azul">R$${produto}</span>
+      <span class="texto-azul"> ${quantidade}x ${nomeProduto} </span class="texto-azul">R$${valorUnitario}</span>
     </section>`;
-    textoTotal.innerHTML = `Total: <span class="texto-azul" id="valor-total">R$ ${total}</span>`;
 
+    totalGeral = totalGeral + preco;
+    let campoTotal = document.getElementById('valor-total'); 
+    campoTotal.textContent = `R$ ${totalGeral}`;
+    document.getElementById('quantidade').value = 0;
 }
 
 function limpar(){
-    let lista = document.getElementById('lista-produtos');
-    let textoTotal = document.querySelector(".carrinho__total");
-    let botaoLimpar = document.querySelector(".botao-limpar");
-    botaoLimpar.addEventListener("click", () => {
-    produto.value ='';
-    quantidade.value = '';
-    lista.innerHTML = 
-        `<section class="carrinho__produtos__produto">
-          <span class="texto-azul">0x</span> Celular <span class="texto-azul">R$0</span>
-        </section>`;
-    textoTotal.innerHTML = `Total: <span class="texto-azul" id=valor-total">Selecione um Produto</span>`;
-    total.value = '';
-    });
-    
+    totalGeral = 0;
+    document.getElementById('lista-produtos').innerHTML = '';
+    document.getElementById('valor-total').textContent = '';
 }
